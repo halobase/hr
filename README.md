@@ -22,10 +22,10 @@ Contributors should read the content below carefully.
 
 Any commit title **MUST** follow one of
 
-- :sparkles: Introducing new features.
-- :construction: Work in progress.
-- :memo: Updated documentations, including README.
-- :bug: Fixed a bug.
+- `:sparkles:` Introducing new features.
+- `:construction:` Work in progress.
+- `:memo:` Updated documentations, including README.
+- `:bug:` Fixed a bug.
 
 For example, if you fixed a bug in the route tree, you must commit like
 
