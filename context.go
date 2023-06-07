@@ -167,6 +167,13 @@ func (c Ctx) Write(p []byte) (int, error) {
 	return c.rw.Write(p)
 }
 
+// NoContent sends an empty response body with status code 204 (no content).
+func (c Ctx) NoContent() error {
+	c.rw.WriteHeader(http.StatusNoContent)
+	return nil
+}
+
+// JSON sends a JSON-encoded response body with status code 200.
 func (c Ctx) JSON(v interface{}) error {
 	w := c.rw
 	w.Header().Set("Content-Type", "application/json")
@@ -174,6 +181,7 @@ func (c Ctx) JSON(v interface{}) error {
 	return json.NewEncoder(w).Encode(v)
 }
 
+// XML sends a XML-encoded response body with status code 200.
 func (c Ctx) XML(v interface{}) error {
 	w := c.rw
 	w.Header().Set("Content-Type", "application/xml")
@@ -181,6 +189,7 @@ func (c Ctx) XML(v interface{}) error {
 	return xml.NewEncoder(w).Encode(v)
 }
 
+// Gob sends a Gob-encoded response body with status code 200.
 func (c Ctx) Gob(v interface{}) error {
 	w := c.rw
 	w.Header().Set("Content-Type", "application/gob")

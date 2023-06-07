@@ -2,6 +2,7 @@ package basicauth
 
 import (
 	"encoding/base64"
+	"net/http"
 	"strings"
 
 	"github.com/tekqer/hr"
@@ -23,7 +24,7 @@ type Options struct {
 	Validate func(*hr.Ctx, string, string) error
 }
 
-func BasicAuth(opts *Options) hr.Plugin {
+func BasicAuth(opts Options) hr.Plugin {
 	if len(opts.Realm) == 0 {
 		opts.Realm = realm
 	}
@@ -47,7 +48,8 @@ func BasicAuth(opts *Options) hr.Plugin {
 				return next.ServeHTTP(c)
 			}
 			c.ResponseWriter().Header().Set("WWW-Authenticate", scheme+" realm="+opts.Realm)
-			return hr.Unauthorized("")
+			c.WriteHeader(http.StatusUnauthorized)
+			return nil
 		})
 	}
 }

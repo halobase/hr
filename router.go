@@ -13,6 +13,8 @@ type HandlerFunc func(*Ctx) error
 
 func (f HandlerFunc) ServeHTTP(c *Ctx) error { return f(c) }
 
+func NopHandlerFunc(c *Ctx) error { return nil }
+
 type Var struct {
 	Key   string
 	Value string
@@ -54,6 +56,10 @@ func New(prefix string, plugins ...Plugin) *Router {
 		chunks:  &router.chunks,
 	}
 	router.Group = group
+
+	// we have to register an internal handler for method options
+	// to make plugins using such method work right :(
+	router.handle(http.MethodOptions, "/", HandlerFunc(NopHandlerFunc))
 	return router
 }
 
